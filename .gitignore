@@ -141,3 +141,19 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# --- ExplainChess API (Python) ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local dev DB (Postgres in prod via DATABASE_URL)
+dev.db
+*.sqlite3
+
+# Model artifact: 593 MB, exceeds GitHub's 100 MB limit. It IS committed to the
+# HF Space repo separately (HF handles large files). Keep it OUT of the GitHub
+# remote. calibration_pool.json (45 KB) is committed normally.
+models/*.pkl
+!models/calibration_pool.json

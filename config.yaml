@@ -1,0 +1,20 @@
+# ExplainChess-API configuration (inference only).
+# Trimmed to the keys ExplainChessPipeline actually reads. Training/eval keys
+# (paths.*, training.*, bigdata_cup.train_csv, etc.) are intentionally omitted —
+# this service runs data-free from the shipped model + calibration_pool.json.
+
+# Stockfish engine (feature extraction + live flaw auditor). Pinned to SF 18 in
+# the Dockerfile; path is overridden at runtime by the STOCKFISH_PATH env var.
+stockfish:
+  path: "/opt/homebrew/bin/stockfish"   # local default; prod sets STOCKFISH_PATH
+  depth: 12                 # main evaluation depth
+  depth_candidates: 12      # depth for multi-PV candidate-move analysis
+  depth_line: 10            # per-ply depth when walking the solution line
+  multipv: 5                # principal variations requested (uniqueness/ambiguity)
+  only_move_margin: 150     # cp gap (best vs 2nd) above which a ply is an "only move"
+
+# Model + calibration-pool artifacts. models_dir is resolved relative to the repo
+# root by the app (see app.config). Holds perplayer_curve_lgbm.pkl and
+# calibration_pool.json.
+bigdata_cup:
+  models_dir: "models"

@@ -1,0 +1,40 @@
+# ExplainChess-API — sellable inference API.
+#
+# lightgbm + scikit-learn are PINNED to the versions that produced the shipped
+# perplayer_curve_lgbm.pkl. A mismatch can fail to unpickle or silently shift
+# predictions — do not bump these without re-verifying the model loads and
+# reproduces known outputs.
+
+# --- Model / inference (pinned: the pickle depends on these) ---
+lightgbm==4.6.0
+scikit-learn==1.7.2
+
+# --- Data / numerics ---
+numpy>=1.26,<2
+pandas>=2.2
+scipy>=1.11
+pyarrow>=15.0          # pandas parquet backend (cup_data import path)
+
+# --- Chess + engine ---
+python-chess>=1.10     # board logic + Stockfish UCI driver
+
+# --- Explainability ---
+shap>=0.45             # exact TreeSHAP per band
+
+# --- Config ---
+pyyaml>=6.0
+
+# --- Web API ---
+fastapi>=0.111
+uvicorn[standard]>=0.29
+
+# --- API product layer ---
+sqlalchemy>=2.0        # ORM for customers / api_keys / usage
+psycopg[binary]>=3.1   # Postgres driver
+slowapi>=0.1.9         # per-key rate limiting
+stripe>=9.0            # metered billing (behind BILLING_ENABLED flag)
+
+# NOTE: also requires the Stockfish 18 *binary* (not a pip package):
+#   macOS:  brew install stockfish   (Homebrew ships SF 18)
+#   Docker: installed from the official GitHub release (see Dockerfile)
+#   Path via STOCKFISH_PATH env var (falls back to config.yaml stockfish.path).
